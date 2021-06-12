@@ -195,7 +195,7 @@ const PostDetail = () => {
                                             className={`cursor-pointer text-green-500`}
                                         />
                                         <FiTrash2
-                                            onClick={() => setIsOpen(true)}
+                                            onClick={handlePostDelete}
                                             className={`cursor-pointer text-red-600`}
                                         />
                                     </span>
