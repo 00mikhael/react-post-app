@@ -2,7 +2,7 @@ import http from '../http'
 
 const token =
     process.env.TOKEN ||
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGMzZjllOTE0MmFlYjI1NmRiMmMzMzYiLCJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjM0OTI2OTYsImV4cCI6MTYyMzQ5NjI5Nn0.CT6I56Q697HSiwE_YZpLHQEw4YLaDocnak4xx2xOSqk'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGM0ZjY1YmEzMTNkYzAwMjIzNWIxYzUiLCJ1c2VybmFtZSI6IkpvaG4iLCJpYXQiOjE2MjM1MjA4NzEsImV4cCI6MzYwMDE2MjM1MjA4NzF9.cof3jSzHnI4bo-5GtutVT6QF7VeJsMjKcHhTz6XzT-M'
 
 export const add = data => {
     return http.post('/api/posts', data, {
