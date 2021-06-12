@@ -294,10 +294,10 @@ const PostDetail = () => {
                                 action cannot be undone.
                             </p>
 
+                            <button onClick={handlePostDelete}>Delete</button>
                             <button onClick={() => setIsOpen(false)}>
-                                Delete
+                                Cancel
                             </button>
-                            <button onClick={handlePostDelete}>Cancel</button>
                         </div>
                     </div>
                 </Dialog>
