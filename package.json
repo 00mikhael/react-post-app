@@ -1,0 +1,75 @@
+{
+    "name": "react-frontend-base",
+    "version": "0.1.0",
+    "description": "",
+    "private": true,
+    "main": "src/index.js",
+    "keywords": [],
+    "proxy": "http://cyz.com",
+    "author": "Michael Nwankwo",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "dependencies": {
+        "@craco/craco": "^6.1.1",
+        "@headlessui/react": "^1.2.0",
+        "@hookform/resolvers": "^2.5.1",
+        "@popperjs/core": "^2.9.2",
+        "@testing-library/react": "^11.2.6",
+        "axios": "^0.21.1",
+        "formik": "^2.2.6",
+        "moment": "^2.29.1",
+        "prop-types": "^15.7.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-draggable": "^4.4.3",
+        "react-hook-form": "^7.6.4",
+        "react-icons": "^4.2.0",
+        "react-loader-spinner": "^4.0.0",
+        "react-popper": "^2.2.5",
+        "react-redux": "^7.2.4",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "4.0.3",
+        "react-select": "^4.3.1",
+        "react-tabs": "^3.2.2",
+        "react-toastify": "^7.0.4",
+        "react-validation": "^3.0.7",
+        "redux": "^4.1.0",
+        "redux-thunk": "^2.3.0",
+        "swr": "^0.5.6",
+        "validator": "^13.6.0",
+        "yup": "^0.32.9"
+    },
+    "scripts": {
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss7-compat": "^2.1.0",
+        "autoprefixer": "^9.8.6",
+        "cross-env": "^7.0.3",
+        "postcss": "^7.0.35",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0"
+    }
+}

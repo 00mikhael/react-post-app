@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html,
+    boby {
+        background-color: rgb(243, 244, 246);
+    }
+}
+
+@layer components {
+}
+
+@layer utilities {
+}
