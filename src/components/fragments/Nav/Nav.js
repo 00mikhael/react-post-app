@@ -20,7 +20,9 @@ const Nav = ({ className }) => {
     const dispatch = useDispatch()
 
     const logoutUser = () => {
-        dispatch(logout())
+        dispatch(logout()).then(res => {
+            localStorage.removeItem('refreshToken')
+        })
     }
 
     const closeAuthDialog = () => {

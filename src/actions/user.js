@@ -45,8 +45,9 @@ export const logout = id => async dispatch => {
             type: LOGOUT,
             payload: res.data
         })
+        return Promise.resolve(res)
     } catch (err) {
-        console.log(err)
+        return Promise.reject(err)
     }
 }
 

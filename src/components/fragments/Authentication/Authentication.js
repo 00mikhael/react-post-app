@@ -53,6 +53,7 @@ const Authentication = ({ type, isOpen, onClose }) => {
                             message: 'Login successful!',
                             type: 'success'
                         })
+                        localStorage.setItem('refreshToken', res.refreshToken)
                         setUserDetail(initialUserState)
                         clearMessage()
                         onClose()
