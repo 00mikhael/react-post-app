@@ -1,11 +1,16 @@
-import axios from 'axios'
+import '@fontsource/work-sans'
 
-const http = (_ =>
-    axios.create({
-        baseURL: 'https://post-app-server.herokuapp.com',
-        Headers: {
-            'Content-Type': 'application/json'
-        }
-    }))()
+import axios from 'axios'
+import store from './store'
+
+const http = () => {
+    let token = store.getState().user?.accessToken
+
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    }
+
+    return axios.create()
+}
 
 export default http

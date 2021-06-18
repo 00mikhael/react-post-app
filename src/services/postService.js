@@ -1,49 +1,46 @@
 import http from '../http'
 
-const token =
-    process.env.TOKEN ||
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGM0ZjY1YmEzMTNkYzAwMjIzNWIxYzUiLCJ1c2VybmFtZSI6IkpvaG4iLCJpYXQiOjE2MjM1MjA4NzEsImV4cCI6MzYwMDE2MjM1MjA4NzF9.cof3jSzHnI4bo-5GtutVT6QF7VeJsMjKcHhTz6XzT-M'
-
 export const add = data => {
-    return http.post('/api/posts', data, {
-        headers: {
-            'x-access-token': token
-        }
-    })
+    return http().post('/api/posts', data)
 }
 
-export const getAll = () => {
-    return http.get('/api/posts')
+export const getAll = async () => {
+    return http().get('/api/posts')
 }
 
 export const getById = id => {
-    return http.get(`/api/posts/${id}`)
+    return http().get(`/api/posts/${id}`)
+}
+
+export const getAllByUserId = userId => {
+    return http().get(`/api/posts/user/${userId}`)
 }
 
 export const updateById = (id, data) => {
-    return http.put(`/api/posts/${id}`, data, {
-        headers: {
-            'x-access-token': token
-        }
-    })
+    return http().put(`/api/posts/${id}`, data)
 }
 
 export const removeById = id => {
-    return http.delete(`/api/posts/${id}`, {
-        headers: {
-            'x-access-token': token
-        }
-    })
+    return http().delete(`/api/posts/${id}`)
 }
 
 export const removeAllByUserId = userId => {
-    return http.delete(`/api/posts/user/${userId}`, {
-        headers: {
-            'x-access-token': token
-        }
-    })
+    return http().delete(`/api/posts/user/${userId}`)
 }
 
 export const find = query => {
-    return http.get(`/api/posts?title=${query}`)
+    return http().get(`/api/posts?title=${query}`)
 }
+
+const PostService = {
+    add,
+    getAll,
+    getAllByUserId,
+    getById,
+    updateById,
+    removeById,
+    removeAllByUserId,
+    find
+}
+
+export default PostService

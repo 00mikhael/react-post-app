@@ -5,7 +5,7 @@
 @layer base {
     html,
     boby {
-        background-color: rgb(243, 244, 246);
+        @apply bg-gray-200;
     }
 }
 
