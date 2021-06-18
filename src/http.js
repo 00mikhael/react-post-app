@@ -1,8 +1,7 @@
 import axios from 'axios'
 import store from './store'
 
-let serverUrl =
-    process.env.SERVER_URL || 'https://post-app-server.herokuapp.com'
+let serverUrl = 'https://post-app-server.herokuapp.com'
 const http = () => {
     let token = store.getState().user?.accessToken
 
