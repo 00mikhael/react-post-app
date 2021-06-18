@@ -5,7 +5,7 @@
     "private": true,
     "main": "src/index.js",
     "keywords": [],
-    "proxy": "https://post-app-server.herokuapp.com",
+    "proxy": "http://localhost:3002",
     "author": "Michael Nwankwo",
     "license": "MIT",
     "repository": {
