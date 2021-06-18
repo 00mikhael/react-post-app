@@ -13,7 +13,7 @@ const http = () => {
     let refreshToken = localStorage.getItem('refreshToken')
 
     return axios.create({
-        // baseURL: serverUrl,
+        baseURL: serverUrl,
         headers: { refreshToken }
     })
 }
