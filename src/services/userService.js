@@ -7,7 +7,7 @@ export const register = async data => {
 export const login = async data => {
     return http().post('/api/users/login', data)
 }
-// TODO: Implement!!
+
 export const logout = async () => {
     return http().post('/api/users/logout')
 }
