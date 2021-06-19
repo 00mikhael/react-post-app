@@ -15,12 +15,15 @@ const Dashboard = () => {
     const [userPosts, setUserPosts] = useState(initialUserPosts)
 
     useEffect(() => {
+        dispatch(retrievePosts())
+    }, [])
+
+    useEffect(() => {
         let timer = setTimeout(() => {
             if (!user) {
                 dispatch(showAuth(true))
             }
         }, 3000)
-        dispatch(retrievePosts())
         return () => clearTimeout(timer)
         // eslint-disable-next-line
     }, [user])
