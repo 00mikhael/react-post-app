@@ -150,7 +150,7 @@ const PostItem = memo(({ post, isFavorite, onClick, onFavorite }) => {
                         onKeyDown={onFavorite}
                         onClick={onFavorite}
                     >
-                        <FiZap className={` mr-1`} />
+                        <FiZap className={` mr-1 text-base`} />
                         {post.favoritesCount > 0 && post.favoritesCount}
                     </span>
                 </span>

@@ -201,7 +201,7 @@ const PostDetail = () => {
                                         ) && `text-yellow-400`
                                     }`}
                                 >
-                                    <FiZap className={` mr-1`} />
+                                    <FiZap className={` mr-1 text-base`} />
                                     {currentPost.favoritesCount > 0 &&
                                         currentPost.favoritesCount}
                                 </span>

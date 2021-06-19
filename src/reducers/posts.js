@@ -21,7 +21,14 @@ const postReducer = (posts = initialState, action) => {
         case RETRIEVE_POSTS:
             return payload
         case REFRESH_POSTS:
-            return posts
+            const postsRefresh = posts.map(post => {
+                if (post._id === payload.id) {
+                    return { ...post, ...payload.update }
+                } else {
+                    return post
+                }
+            })
+            return postsRefresh
         case UPDATE_POST:
             return posts.map(post => {
                 if (post._id === payload.post._id) {

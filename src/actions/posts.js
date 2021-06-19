@@ -68,6 +68,11 @@ export const retrievePost = id => async dispatch => {
 }
 
 export const updatePost = (id, update) => async dispatch => {
+    dispatch({
+        type: REFRESH_POSTS,
+        payload: { id, update }
+    })
+
     try {
         const res = await PostService.updateById(id, update)
 
@@ -75,6 +80,7 @@ export const updatePost = (id, update) => async dispatch => {
             type: UPDATE_POST,
             payload: res.data
         })
+
         return Promise.resolve(res)
     } catch (err) {
         return Promise.reject(err)

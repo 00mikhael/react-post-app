@@ -120,7 +120,7 @@ const Authentication = ({ type, isOpen, onClose }) => {
                         <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
                         <form
                             onSubmit={handleFormSubmit}
-                            className={`flex flex-col space-y-4 p-6 mx-6 sm:mx-auto w-full max-w-lg bg-white z-10 rounded-lg`}
+                            className={`flex flex-col space-y-4 p-6 mx-4 sm:mx-auto w-full max-w-lg bg-white z-10 rounded-lg`}
                         >
                             {status.message && (
                                 <span

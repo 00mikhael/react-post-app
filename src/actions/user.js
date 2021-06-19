@@ -87,13 +87,18 @@ export const retrieveUser = () => async dispatch => {
 }
 
 export const updateUser = (id, update) => async dispatch => {
+    dispatch({
+        type: REFRESH_USER,
+        payload: update
+    })
     try {
-        const res = await UserService.updateUserById(id, update)
-
-        dispatch({
-            type: UPDATE_USER,
-            payload: res.data
+        const res = await UserService.updateUserById(id, update).then(res => {
+            dispatch({
+                type: UPDATE_USER,
+                payload: res.data
+            })
         })
+
         return Promise.resolve(res)
     } catch (err) {
         return Promise.reject(err)
