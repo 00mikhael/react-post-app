@@ -111,6 +111,9 @@ const PostDetail = () => {
     }
 
     const handlePostEditComplete = async () => {
+        titleRef.current.contentEditable = false
+        descRef.current.contentEditable = false
+        setEditing(false)
         const res = await dispatch(
             updatePost(currentPost._id, {
                 title: titleRef.current.textContent,
@@ -119,9 +122,6 @@ const PostDetail = () => {
         )
 
         setCurrentPost(res.data.post)
-        titleRef.current.contentEditable = false
-        descRef.current.contentEditable = false
-        setEditing(false)
     }
 
     const handlePostEditCancel = () => {

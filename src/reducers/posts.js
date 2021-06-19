@@ -35,7 +35,7 @@ const postReducer = (posts = initialState, action) => {
             }
         case UPDATE_POST:
             return posts.map(post => {
-                if (post._id === payload.post._id) {
+                if (post._id === (payload?.post?._id || payload?.id)) {
                     return {
                         ...post,
                         ...payload.post
@@ -45,7 +45,6 @@ const postReducer = (posts = initialState, action) => {
                 }
             })
         case DELETE_POST:
-            console.log(payload?.id)
             return posts.filter(({ _id }) => {
                 return _id !== (payload?.post?._id || payload.id)
             })

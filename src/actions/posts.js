@@ -66,6 +66,10 @@ export const updatePost = (id, update) => async dispatch => {
 
         return Promise.resolve(res)
     } catch (err) {
+        dispatch({
+            type: UPDATE_POST,
+            payload: { id, post: update }
+        })
         return Promise.reject(err)
     }
 }
