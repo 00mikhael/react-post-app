@@ -15,7 +15,12 @@ import {
 } from 'react-icons/fi'
 
 import { getById } from '../../../services/postService'
-import { refreshPosts, updatePost, deletePost } from '../../../actions/posts'
+import {
+    retrievePosts,
+    refreshPosts,
+    updatePost,
+    deletePost
+} from '../../../actions/posts'
 import { refreshUser, updateUser } from '../../../actions/user'
 import { showAuth } from '../../../actions/default'
 
@@ -33,6 +38,7 @@ const PostDetail = () => {
     let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     const fetchPost = async id => {
+        dispatch(retrievePosts())
         await getById(id)
             .then(res => {
                 setCurrentPost(res.data)
@@ -85,6 +91,7 @@ const PostDetail = () => {
             userUpdate = [...user.favoritePosts, currentPost._id]
         }
 
+        dispatch(refreshUser({ favoritePosts: userUpdate }))
         dispatch(
             refreshPosts({
                 id: currentPost._id,
@@ -94,17 +101,20 @@ const PostDetail = () => {
                 }
             })
         )
-        dispatch(refreshUser({ favoritePosts: userUpdate }))
 
-        dispatch(updateUser(user._id, { favoritePosts: userUpdate }))
-        const res = await dispatch(
+        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(
+            console.log
+        )
+        dispatch(
             updatePost(currentPost._id, {
                 favorites: postUpdate,
                 favoritesCount: postUpdate.length
             })
         )
-
-        setCurrentPost(res.data.post)
+            .then(res => {
+                setCurrentPost(res.data.post)
+            })
+            .catch(console.log)
     }
 
     const handlePostEdit = () => {

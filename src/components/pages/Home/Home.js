@@ -17,7 +17,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!postFilter) {
-            dispatch(retrievePosts(defaults.currentPosts))
+            dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
         }
         // eslint-disable-next-line
     }, [postFilter])

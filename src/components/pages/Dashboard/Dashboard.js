@@ -26,7 +26,7 @@ const Dashboard = () => {
     }, [user])
 
     useEffect(() => {
-        // setUserPosts(initialUserPosts)
+        setUserPosts(initialUserPosts)
         if (posts && posts.length > 0) {
             // eslint-disable-next-line
             let postsCopy = posts.filter(post => {
@@ -34,7 +34,6 @@ const Dashboard = () => {
                     return post
                 }
             })
-            console.log(postsCopy)
             if (postsCopy.length > 0) {
                 setUserPosts(postsCopy)
             }

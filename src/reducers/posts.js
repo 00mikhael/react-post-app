@@ -22,7 +22,7 @@ const postReducer = (posts = initialState, action) => {
         case RETRIEVE_POSTS:
             return payload
         case FILTER_POSTS:
-            if (payload.filter) {
+            if (payload.filter && payload.posts) {
                 return payload.posts.filter(post => {
                     return post.title
                         .toLowerCase()
@@ -32,7 +32,7 @@ const postReducer = (posts = initialState, action) => {
                 return posts
             }
         case REFRESH_POSTS:
-            if (payload && payload.update) {
+            if (payload && payload.id) {
                 const postsRefresh = posts.map(post => {
                     if (post._id === payload.id) {
                         return { ...post, ...payload.update }

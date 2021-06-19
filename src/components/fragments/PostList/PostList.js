@@ -43,6 +43,7 @@ const PostList = ({ posts }) => {
             userUpdate = [...user.favoritePosts, post._id]
         }
 
+        dispatch(refreshUser({ favoritePosts: userUpdate }))
         dispatch(
             refreshPosts({
                 id: post._id,
@@ -52,16 +53,13 @@ const PostList = ({ posts }) => {
                 }
             })
         )
-        dispatch(refreshUser({ favoritePosts: userUpdate }))
-        await dispatch(
+
+        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(console.log)
+        dispatch(
             updatePost(post._id, {
                 favorites: postUpdate,
                 favoritesCount: postUpdate.length
             })
-        ).catch(console.log)
-
-        await dispatch(
-            updateUser(user._id, { favoritePosts: userUpdate })
         ).catch(console.log)
     }
 
