@@ -5,7 +5,8 @@ import {
     REFRESH_POSTS,
     UPDATE_POST,
     DELETE_POST,
-    DELETE_POSTS_USER
+    DELETE_POSTS_USER,
+    FILTER_POSTS
 } from './type'
 import PostService from '../services/postService'
 
@@ -48,12 +49,16 @@ export const retrievePost = id => async dispatch => {
     }
 }
 
-export const refreshPosts = (id, update) => dispatch => {
-    dispatch({
-        type: REFRESH_POSTS,
-        payload: { id, update }
-    })
-}
+export const refreshPosts =
+    ({ ...args }) =>
+    dispatch => {
+        console.log(args)
+        const { id, update, posts } = args
+        dispatch({
+            type: REFRESH_POSTS,
+            payload: { id, update, posts }
+        })
+    }
 
 export const updatePost = (id, update) => async dispatch => {
     try {
@@ -104,6 +109,13 @@ export const deletePostsByUser = userId => async dispatch => {
     } catch (err) {
         return Promise.reject(err)
     }
+}
+
+export const filterPosts = (query, posts = []) => async dispatch => {
+    dispatch({
+        type: FILTER_POSTS,
+        payload: { filter: query, posts }
+    })
 }
 
 export const findPosts = query => async dispatch => {

@@ -4,7 +4,8 @@ import {
     REFRESH_POSTS,
     UPDATE_POST,
     DELETE_POST,
-    DELETE_POSTS_USER
+    DELETE_POSTS_USER,
+    FILTER_POSTS
 } from '../actions/type'
 
 const initialState = null
@@ -20,6 +21,17 @@ const postReducer = (posts = initialState, action) => {
             return [payload]
         case RETRIEVE_POSTS:
             return payload
+        case FILTER_POSTS:
+            if (payload.filter) {
+                console.log(payload.filter)
+                return payload.posts.filter(post => {
+                    return post.title
+                        .toLowerCase()
+                        .includes(payload.filter.toLowerCase())
+                })
+            } else {
+                return posts
+            }
         case REFRESH_POSTS:
             if (payload && payload.update) {
                 const postsRefresh = posts.map(post => {
@@ -30,6 +42,8 @@ const postReducer = (posts = initialState, action) => {
                     }
                 })
                 return postsRefresh
+            } else if (payload.posts) {
+                return payload.posts
             } else {
                 return posts
             }

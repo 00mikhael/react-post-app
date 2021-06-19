@@ -4,39 +4,44 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FiSearch, FiLoader } from 'react-icons/fi'
 
 import withAddPost from '../../hoc/withAddPost'
-import { retrievePosts, refreshPosts, findPosts } from '../../../actions/posts'
+import {
+    retrievePosts,
+    refreshPosts,
+    findPosts,
+    filterPosts
+} from '../../../actions/posts'
 import PostList from '../../fragments/PostList'
 
 const Home = () => {
+    const initialPostList = { isSet: false, posts: [] }
     const dispatch = useDispatch()
     const posts = useSelector(state => state.posts)
+    const [postList, setPostList] = useState(initialPostList)
     const [postFilter, setPostFilter] = useState('')
-    const [showPosts, setShowPosts] = useState(false)
 
     useEffect(() => {
         if (!postFilter) {
             dispatch(retrievePosts()).catch(err => {
-                dispatch(refreshPosts())
+                dispatch(refreshPosts({ posts: postList.posts }))
             })
         } // eslint-disable-next-line
     }, [postFilter])
 
     useEffect(() => {
-        if (posts && posts.length > 0) {
-            setShowPosts(true)
-        }
+        if (!postList.isSet && posts) {
+            setPostList({ isSet: true, posts })
+        } // eslint-disable-next-line
     }, [posts])
 
     const handleSearch = e => {
         e.preventDefault()
         if (postFilter) {
-            dispatch(findPosts(postFilter)).then(res => {
-                setShowPosts(true)
-            })
+            dispatch(findPosts(postFilter)).catch(console.log)
         }
     }
 
     const setQuery = e => {
+        dispatch(filterPosts(e.target.value, postList.posts))
         setPostFilter(e.target.value)
     }
 
@@ -61,14 +66,14 @@ const Home = () => {
                     />
                 </form>
             </div>
-            {!showPosts && (
+            {!posts && (
                 <div
                     className={`mx-auto w-min px-6 py-4  text-sm text-purple-600 rounded-lg text-center bg-white mt-6`}
                 >
                     <FiLoader className={`animate-spin `} />
                 </div>
             )}
-            {showPosts && <PostList posts={posts} />}
+            {posts && posts.length > 0 && <PostList posts={posts} />}
         </>
     )
 }

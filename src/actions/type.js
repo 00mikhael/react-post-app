@@ -7,6 +7,7 @@ export const REFRESH_POSTS = 'REFRESH_POSTS'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const DELETE_POSTS_USER = 'DELETE_POSTS_USER'
+export const FILTER_POSTS = 'FILTER_POSTS'
 
 export const REGISTER = 'REGISTER'
 export const LOGIN = 'LOGIN'

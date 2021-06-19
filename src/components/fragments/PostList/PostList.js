@@ -44,9 +44,12 @@ const PostList = ({ posts }) => {
         }
 
         dispatch(
-            refreshPosts(post._id, {
-                favorites: postUpdate,
-                favoritesCount: postUpdate.length
+            refreshPosts({
+                id: post._id,
+                update: {
+                    favorites: postUpdate,
+                    favoritesCount: postUpdate.length
+                }
             })
         )
         dispatch(refreshUser({ favoritePosts: userUpdate }))
