@@ -21,14 +21,18 @@ const postReducer = (posts = initialState, action) => {
         case RETRIEVE_POSTS:
             return payload
         case REFRESH_POSTS:
-            const postsRefresh = posts.map(post => {
-                if (post._id === payload.id) {
-                    return { ...post, ...payload.update }
-                } else {
-                    return post
-                }
-            })
-            return postsRefresh
+            if (payload && payload.update) {
+                const postsRefresh = posts.map(post => {
+                    if (post._id === payload.id) {
+                        return { ...post, ...payload.update }
+                    } else {
+                        return post
+                    }
+                })
+                return postsRefresh
+            } else {
+                return posts
+            }
         case UPDATE_POST:
             return posts.map(post => {
                 if (post._id === payload.post._id) {
@@ -41,8 +45,9 @@ const postReducer = (posts = initialState, action) => {
                 }
             })
         case DELETE_POST:
+            console.log(payload?.id)
             return posts.filter(({ _id }) => {
-                return _id !== payload.id
+                return _id !== (payload?.post?._id || payload.id)
             })
         case DELETE_POSTS_USER:
             return posts.filter(({ creator_id }) => {

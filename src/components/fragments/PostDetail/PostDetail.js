@@ -15,8 +15,8 @@ import {
 } from 'react-icons/fi'
 
 import { getById } from '../../../services/postService'
-import { updatePost, deletePost } from '../../../actions/posts'
-import { updateUser } from '../../../actions/user'
+import { refreshPosts, updatePost, deletePost } from '../../../actions/posts'
+import { refreshUser, updateUser } from '../../../actions/user'
 import { showAuth } from '../../../actions/default'
 
 const PostDetail = () => {
@@ -28,6 +28,7 @@ const PostDetail = () => {
 
     const [currentPost, setCurrentPost] = useState()
     const user = useSelector(state => state.user)
+    const posts = useSelector(state => state.posts)
     const [editing, setEditing] = useState(false)
     let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
@@ -42,6 +43,16 @@ const PostDetail = () => {
     }
 
     useEffect(() => {
+        if (posts && posts.length > 0) {
+            posts.forEach(post => {
+                if (post._id === postId || post._id === currentPost?._id) {
+                    setCurrentPost(post)
+                }
+            })
+        } // eslint-disable-next-line
+    }, [posts])
+
+    useEffect(() => {
         fetchPost(postId)
     }, [postId])
 
@@ -51,27 +62,7 @@ const PostDetail = () => {
         history.push('/')
     }
 
-    const handleUserUpdate = async update => {
-        try {
-            dispatch(updateUser(user._id, update))
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const handlePostUpdate = async update => {
-        try {
-            const res = await dispatch(updatePost(currentPost._id, update))
-            setCurrentPost(res.data.post)
-        } catch (err) {
-            console.log(err)
-        }
-        titleRef.current.contentEditable = false
-        descRef.current.contentEditable = false
-        setEditing(false)
-    }
-
-    const handlePostFavorite = () => {
+    const handlePostFavorite = async () => {
         if (!user) {
             dispatch(showAuth(true))
             return
@@ -94,11 +85,23 @@ const PostDetail = () => {
             userUpdate = [...user.favoritePosts, currentPost._id]
         }
 
-        handlePostUpdate({
-            favorites: postUpdate,
-            favoritesCount: postUpdate.length
-        })
-        handleUserUpdate({ favoritePosts: userUpdate })
+        dispatch(
+            refreshPosts(currentPost._id, {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            })
+        )
+        dispatch(refreshUser({ favoritePosts: userUpdate }))
+
+        dispatch(updateUser(user._id, { favoritePosts: userUpdate }))
+        const res = await dispatch(
+            updatePost(currentPost._id, {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            })
+        )
+
+        setCurrentPost(res.data.post)
     }
 
     const handlePostEdit = () => {
@@ -107,11 +110,18 @@ const PostDetail = () => {
         descRef.current.contentEditable = true
     }
 
-    const handlePostEditComplete = () => {
-        handlePostUpdate({
-            title: titleRef.current.textContent,
-            description: descRef.current.textContent
-        })
+    const handlePostEditComplete = async () => {
+        const res = await dispatch(
+            updatePost(currentPost._id, {
+                title: titleRef.current.textContent,
+                description: descRef.current.textContent
+            })
+        )
+
+        setCurrentPost(res.data.post)
+        titleRef.current.contentEditable = false
+        descRef.current.contentEditable = false
+        setEditing(false)
     }
 
     const handlePostEditCancel = () => {

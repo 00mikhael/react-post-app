@@ -23,28 +23,9 @@ export const addPost = post => async dispatch => {
     }
 }
 
-export const refreshPosts = () => dispatch => {
-    dispatch({
-        type: REFRESH_POSTS
-    })
-}
-
 export const retrievePosts = () => async dispatch => {
     try {
         const res = await PostService.getAll()
-        dispatch({
-            type: RETRIEVE_POSTS,
-            payload: res.data.posts
-        })
-        return Promise.resolve(res)
-    } catch (err) {
-        return Promise.reject(err)
-    }
-}
-
-export const retrievePostsByUserId = userId => async dispatch => {
-    try {
-        const res = await PostService.getAllByUserId(userId)
         dispatch({
             type: RETRIEVE_POSTS,
             payload: res.data.posts
@@ -67,12 +48,14 @@ export const retrievePost = id => async dispatch => {
     }
 }
 
-export const updatePost = (id, update) => async dispatch => {
+export const refreshPosts = (id, update) => dispatch => {
     dispatch({
         type: REFRESH_POSTS,
         payload: { id, update }
     })
+}
 
+export const updatePost = (id, update) => async dispatch => {
     try {
         const res = await PostService.updateById(id, update)
 
@@ -97,6 +80,10 @@ export const deletePost = id => async dispatch => {
         })
         return Promise.resolve(res.data)
     } catch (err) {
+        dispatch({
+            type: DELETE_POST,
+            payload: { id }
+        })
         return Promise.reject(err)
     }
 }

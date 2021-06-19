@@ -27,8 +27,11 @@ const userReducer = (user = initialState, action) => {
                 ...payload
             }
         case REFRESH_USER:
-            console.log(payload)
-            return { ...user, ...payload }
+            if (payload) {
+                return { ...user, ...payload }
+            } else {
+                return user
+            }
         case RETRIEVE_USER:
             return { ...payload, ...user }
         case UPDATE_USER:

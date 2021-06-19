@@ -7,18 +7,16 @@ import moment from 'moment'
 
 import { FiZap, FiUser, FiList, FiGrid } from 'react-icons/fi'
 
-import { updatePost } from '../../../actions/posts'
-import { updateUser } from '../../../actions/user'
+import { updatePost, refreshPosts } from '../../../actions/posts'
+import { updateUser, refreshUser } from '../../../actions/user'
 import { showAuth } from '../../../actions/default'
 
-const PostList = () => {
+const PostList = ({ posts }) => {
     const [layout, setLayout] = useState('grid')
 
     const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
-    const posts = useSelector(state => state.posts)
-
     const handlePostClick = post => {
         history.push(`/posts/${post._id}`)
     }
@@ -45,6 +43,13 @@ const PostList = () => {
             userUpdate = [...user.favoritePosts, post._id]
         }
 
+        dispatch(
+            refreshPosts(post._id, {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            })
+        )
+        dispatch(refreshUser({ favoritePosts: userUpdate }))
         await dispatch(
             updatePost(post._id, {
                 favorites: postUpdate,

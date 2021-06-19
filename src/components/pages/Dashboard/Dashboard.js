@@ -1,25 +1,45 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { FiLoader } from 'react-icons/fi'
 
 import PostList from '../../fragments/PostList'
-import { retrievePostsByUserId } from '../../../actions/posts'
-import { showAuth } from '../../../actions/default'
 import withAddPost from '../../hoc/withAddPost'
 
+import { retrievePosts } from '../../../actions/posts'
+import { showAuth } from '../../../actions/default'
+
 const Dashboard = () => {
-    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
-    const [showPosts, setShowPosts] = useState(false)
+    const initialUserPosts = []
+    const user = useSelector(state => state.user)
+    const posts = useSelector(state => state.posts)
+    const [userPosts, setUserPosts] = useState(initialUserPosts)
+
     useEffect(() => {
-        if (user) {
-            dispatch(retrievePostsByUserId(user._id)).then(res => {
-                setShowPosts(true)
+        let timer = setTimeout(() => {
+            if (!user) {
+                dispatch(showAuth(true))
+            }
+        }, 3000)
+        dispatch(retrievePosts())
+        return () => clearTimeout(timer)
+        // eslint-disable-next-line
+    }, [user])
+
+    useEffect(() => {
+        // setUserPosts(initialUserPosts)
+        if (posts && posts.length > 0) {
+            // eslint-disable-next-line
+            let postsCopy = posts.filter(post => {
+                if (post.creator_id === user?._id) {
+                    return post
+                }
             })
-        } else {
-            dispatch(showAuth(true))
-        }
-    }, [dispatch, user])
+            console.log(postsCopy)
+            if (postsCopy.length > 0) {
+                setUserPosts(postsCopy)
+            }
+        } // eslint-disable-next-line
+    }, [posts, user])
 
     return (
         <>
@@ -40,14 +60,14 @@ const Dashboard = () => {
                             {user.username + `’s Posts`}
                         </div>
                     </div>
-                    {!showPosts && (
+                    {/* {!showPosts && (
                         <div
                             className={`mx-auto w-min px-6 py-4  text-sm text-purple-600 rounded-lg text-center bg-white mt-6`}
                         >
                             <FiLoader className={`animate-spin `} />
                         </div>
-                    )}
-                    {showPosts && <PostList />}
+                    )} */}
+                    {userPosts.length > 0 && <PostList posts={userPosts} />}
                 </div>
             ) : (
                 <div

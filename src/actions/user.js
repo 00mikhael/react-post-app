@@ -51,12 +51,6 @@ export const logout = id => async dispatch => {
     }
 }
 
-export const refreshUser = () => dispatch => {
-    dispatch({
-        type: REFRESH_USER
-    })
-}
-
 export const refreshToken = () => async dispatch => {
     try {
         const res = await UserService.refreshToken()
@@ -82,21 +76,27 @@ export const retrieveUser = () => async dispatch => {
         })
         return Promise.resolve(res)
     } catch (err) {
+        dispatch({
+            type: REFRESH_USER
+        })
         return Promise.reject(err)
     }
 }
 
-export const updateUser = (id, update) => async dispatch => {
+export const refreshUser = update => dispatch => {
     dispatch({
         type: REFRESH_USER,
         payload: update
     })
+}
+
+export const updateUser = (id, update) => async dispatch => {
     try {
-        const res = await UserService.updateUserById(id, update).then(res => {
-            dispatch({
-                type: UPDATE_USER,
-                payload: res.data
-            })
+        const res = await UserService.updateUserById(id, update)
+
+        dispatch({
+            type: UPDATE_USER,
+            payload: res.data
         })
 
         return Promise.resolve(res)

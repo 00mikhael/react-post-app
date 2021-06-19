@@ -1,24 +1,31 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { FiSearch, FiLoader } from 'react-icons/fi'
 
 import withAddPost from '../../hoc/withAddPost'
-import { retrievePosts, findPosts } from '../../../actions/posts'
+import { retrievePosts, refreshPosts, findPosts } from '../../../actions/posts'
 import PostList from '../../fragments/PostList'
 
 const Home = () => {
     const dispatch = useDispatch()
+    const posts = useSelector(state => state.posts)
     const [postFilter, setPostFilter] = useState('')
     const [showPosts, setShowPosts] = useState(false)
 
     useEffect(() => {
         if (!postFilter) {
-            dispatch(retrievePosts()).then(res => {
-                setShowPosts(true)
+            dispatch(retrievePosts()).catch(err => {
+                dispatch(refreshPosts())
             })
         } // eslint-disable-next-line
     }, [postFilter])
+
+    useEffect(() => {
+        if (posts && posts.length > 0) {
+            setShowPosts(true)
+        }
+    }, [posts])
 
     const handleSearch = e => {
         e.preventDefault()
@@ -61,7 +68,7 @@ const Home = () => {
                     <FiLoader className={`animate-spin `} />
                 </div>
             )}
-            {showPosts && <PostList />}
+            {showPosts && <PostList posts={posts} />}
         </>
     )
 }
