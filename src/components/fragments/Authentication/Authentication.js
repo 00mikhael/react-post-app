@@ -212,7 +212,7 @@ const Authentication = ({ type, isOpen, onClose }) => {
                                             onClick={populateRandomUser}
                                             className={`cursor-pointer`}
                                         >
-                                            Generate random user
+                                            Use default user
                                         </div>
                                         <span className={`text-gray-600`}>
                                             or
