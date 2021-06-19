@@ -67,6 +67,9 @@ export const refreshToken = () => async dispatch => {
 }
 
 export const retrieveUser = () => async dispatch => {
+    dispatch({
+        type: REFRESH_USER
+    })
     try {
         const res = await UserService.getUser()
 
@@ -76,9 +79,6 @@ export const retrieveUser = () => async dispatch => {
         })
         return Promise.resolve(res)
     } catch (err) {
-        dispatch({
-            type: REFRESH_USER
-        })
         return Promise.reject(err)
     }
 }

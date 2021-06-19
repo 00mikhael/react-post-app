@@ -7,8 +7,6 @@ import withAddPost from '../../hoc/withAddPost'
 import { retrievePosts, findPosts, filterPosts } from '../../../actions/posts'
 import PostList from '../../fragments/PostList'
 
-import { currentPosts } from '../../../actions/default'
-
 const Home = () => {
     const dispatch = useDispatch()
     const defaults = useSelector(state => state.defaults)
@@ -21,12 +19,6 @@ const Home = () => {
         }
         // eslint-disable-next-line
     }, [postFilter])
-
-    useEffect(() => {
-        if (!defaults.isSetPosts && posts) {
-            dispatch(currentPosts({ isSetPosts: true, currentPosts: posts }))
-        } // eslint-disable-next-line
-    }, [posts])
 
     const handleSearch = e => {
         e.preventDefault()

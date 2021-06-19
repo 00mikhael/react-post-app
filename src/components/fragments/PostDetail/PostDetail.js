@@ -34,11 +34,12 @@ const PostDetail = () => {
     const [currentPost, setCurrentPost] = useState()
     const user = useSelector(state => state.user)
     const posts = useSelector(state => state.posts)
+    const defaults = useSelector(state => state.defaults)
     const [editing, setEditing] = useState(false)
     let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     const fetchPost = async id => {
-        dispatch(retrievePosts())
+        dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
         await getById(id)
             .then(res => {
                 setCurrentPost(res.data)

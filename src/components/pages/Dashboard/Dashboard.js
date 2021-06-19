@@ -12,10 +12,11 @@ const Dashboard = () => {
     const initialUserPosts = []
     const user = useSelector(state => state.user)
     const posts = useSelector(state => state.posts)
+    const defaults = useSelector(state => state.defaults)
     const [userPosts, setUserPosts] = useState(initialUserPosts)
 
     useEffect(() => {
-        dispatch(retrievePosts())
+        dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
         // eslint-disable-next-line
     }, [])
 

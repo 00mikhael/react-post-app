@@ -8,6 +8,11 @@ import {
     DELETE_POSTS_USER,
     FILTER_POSTS
 } from './type'
+import {
+    currentPosts,
+    updatePostCurrentPosts,
+    deletePostCurrentPosts
+} from './default'
 import PostService from '../services/postService'
 
 export const addPost = post => async dispatch => {
@@ -31,6 +36,9 @@ export const retrievePosts = posts => async dispatch => {
             type: RETRIEVE_POSTS,
             payload: res.data.posts
         })
+        dispatch(
+            currentPosts({ isSetPosts: true, currentPosts: res.data.posts })
+        )
         return Promise.resolve(res)
     } catch (err) {
         if (posts) {
@@ -66,6 +74,11 @@ export const refreshPosts =
     }
 
 export const updatePost = (id, update) => async dispatch => {
+    dispatch({
+        type: UPDATE_POST,
+        payload: { id, post: update }
+    })
+    dispatch(updatePostCurrentPosts(id, update))
     try {
         const res = await PostService.updateById(id, update)
 
@@ -76,15 +89,16 @@ export const updatePost = (id, update) => async dispatch => {
 
         return Promise.resolve(res)
     } catch (err) {
-        dispatch({
-            type: UPDATE_POST,
-            payload: { id, post: update }
-        })
         return Promise.reject(err)
     }
 }
 
 export const deletePost = id => async dispatch => {
+    dispatch({
+        type: DELETE_POST,
+        payload: { id }
+    })
+    dispatch(deletePostCurrentPosts(id))
     try {
         const res = await PostService.removeById(id)
 
@@ -94,10 +108,6 @@ export const deletePost = id => async dispatch => {
         })
         return Promise.resolve(res.data)
     } catch (err) {
-        dispatch({
-            type: DELETE_POST,
-            payload: { id }
-        })
         return Promise.reject(err)
     }
 }
