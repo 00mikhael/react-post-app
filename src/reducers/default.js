@@ -1,14 +1,21 @@
-import { SHOW_AUTH } from '../actions/type'
+import { SHOW_AUTH, CURRENT_POSTS } from '../actions/type'
 
+const initialState = { showAuth: false, isSetPosts: false, currentPosts: null }
 
-const defaultReducer = (showAuth = false, action) => {
+const defaultReducer = (defaultState = initialState, action) => {
     const { type, payload } = action
 
     switch (type) {
         case SHOW_AUTH:
-            return { showAuth: payload }
+            return { ...defaultState, showAuth: payload.showAuth }
+        case CURRENT_POSTS:
+            return {
+                ...defaultState,
+                isSetPosts: payload.isSetPosts,
+                currentPosts: payload.currentPosts
+            }
         default:
-            return showAuth
+            return defaultState
     }
 }
 

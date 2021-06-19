@@ -4,33 +4,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FiSearch, FiLoader } from 'react-icons/fi'
 
 import withAddPost from '../../hoc/withAddPost'
-import {
-    retrievePosts,
-    refreshPosts,
-    findPosts,
-    filterPosts
-} from '../../../actions/posts'
+import { retrievePosts, findPosts, filterPosts } from '../../../actions/posts'
 import PostList from '../../fragments/PostList'
 
+import { currentPosts } from '../../../actions/default'
+
 const Home = () => {
-    const initialPostList = { isSet: false, posts: [] }
     const dispatch = useDispatch()
+    const defaults = useSelector(state => state.defaults)
     const posts = useSelector(state => state.posts)
-    const [postList, setPostList] = useState(initialPostList)
     const [postFilter, setPostFilter] = useState('')
 
     useEffect(() => {
         if (!postFilter) {
-            dispatch(retrievePosts()).catch(err => {
-                console.log(postList.posts)
-                dispatch(refreshPosts({ posts: postList.posts }))
-            })
-        } // eslint-disable-next-line
+            dispatch(retrievePosts(defaults.currentPosts))
+        }
+        // eslint-disable-next-line
     }, [postFilter])
 
     useEffect(() => {
-        if (!postList.isSet && posts) {
-            setPostList({ isSet: true, posts })
+        if (!defaults.isSetPosts && posts) {
+            dispatch(currentPosts({ isSetPosts: true, currentPosts: posts }))
         } // eslint-disable-next-line
     }, [posts])
 
@@ -42,7 +36,7 @@ const Home = () => {
     }
 
     const setQuery = e => {
-        dispatch(filterPosts(e.target.value, postList.posts))
+        dispatch(filterPosts(e.target.value, defaults.currentPosts))
         setPostFilter(e.target.value)
     }
 

@@ -1,4 +1,5 @@
 export const SHOW_AUTH = 'SHOW_AUTH'
+export const CURRENT_POSTS = 'CURRENT_POSTS'
 
 export const ADD_POST = 'ADD_POST'
 export const RETRIEVE_POSTS = 'RETRIEVE_POSTS'

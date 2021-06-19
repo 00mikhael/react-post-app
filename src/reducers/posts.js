@@ -23,7 +23,6 @@ const postReducer = (posts = initialState, action) => {
             return payload
         case FILTER_POSTS:
             if (payload.filter) {
-                console.log(payload.filter)
                 return payload.posts.filter(post => {
                     return post.title
                         .toLowerCase()

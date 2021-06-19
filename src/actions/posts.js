@@ -24,7 +24,7 @@ export const addPost = post => async dispatch => {
     }
 }
 
-export const retrievePosts = () => async dispatch => {
+export const retrievePosts = posts => async dispatch => {
     try {
         const res = await PostService.getAll()
         dispatch({
@@ -33,6 +33,12 @@ export const retrievePosts = () => async dispatch => {
         })
         return Promise.resolve(res)
     } catch (err) {
+        if (posts) {
+            dispatch({
+                type: RETRIEVE_POSTS,
+                payload: posts
+            })
+        }
         return Promise.reject(err)
     }
 }
@@ -52,7 +58,6 @@ export const retrievePost = id => async dispatch => {
 export const refreshPosts =
     ({ ...args }) =>
     dispatch => {
-        console.log(args)
         const { id, update, posts } = args
         dispatch({
             type: REFRESH_POSTS,
@@ -111,12 +116,14 @@ export const deletePostsByUser = userId => async dispatch => {
     }
 }
 
-export const filterPosts = (query, posts = []) => async dispatch => {
-    dispatch({
-        type: FILTER_POSTS,
-        payload: { filter: query, posts }
-    })
-}
+export const filterPosts =
+    (query, posts = []) =>
+    async dispatch => {
+        dispatch({
+            type: FILTER_POSTS,
+            payload: { filter: query, posts }
+        })
+    }
 
 export const findPosts = query => async dispatch => {
     try {
