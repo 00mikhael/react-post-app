@@ -22,10 +22,11 @@ const Home = () => {
     useEffect(() => {
         if (!postFilter) {
             dispatch(retrievePosts()).catch(err => {
+                console.log(postList.posts)
                 dispatch(refreshPosts({ posts: postList.posts }))
             })
         } // eslint-disable-next-line
-    }, [postFilter])
+    }, [postFilter, posts])
 
     useEffect(() => {
         if (!postList.isSet && posts) {
