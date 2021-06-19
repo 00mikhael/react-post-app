@@ -26,7 +26,7 @@ const Home = () => {
                 dispatch(refreshPosts({ posts: postList.posts }))
             })
         } // eslint-disable-next-line
-    }, [postFilter, posts])
+    }, [postFilter])
 
     useEffect(() => {
         if (!postList.isSet && posts) {
