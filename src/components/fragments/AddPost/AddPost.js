@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Switch } from '@headlessui/react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Dialog, Transition } from '@headlessui/react'
@@ -42,12 +42,6 @@ const AddPost = ({ isOpen, onClose }) => {
         }
         await dispatch(addPost(post, user.accessToken))
             .then(res => {
-                setStatus({
-                    message: 'Posted successfully!',
-                    type: 'success'
-                })
-                setPost(initialPostState)
-                clearMessage()
                 onClose()
             })
             .catch(err => {
@@ -55,7 +49,6 @@ const AddPost = ({ isOpen, onClose }) => {
                     message: err.message || 'Unable to add post!',
                     type: 'failure'
                 })
-                clearMessage()
             })
         setSaving(false)
     }
@@ -68,6 +61,11 @@ const AddPost = ({ isOpen, onClose }) => {
             })
         }, 1000)
     }
+
+    useEffect(() => {
+        setPost(initialPostState)
+        clearMessage() // eslint-disable-next-line
+    }, [onClose])
 
     return (
         <Transition

@@ -49,13 +49,8 @@ const Authentication = ({ type, isOpen, onClose }) => {
             case 'login':
                 await dispatch(login(userDetail))
                     .then(res => {
-                        setStatus({
-                            message: 'Login successful!',
-                            type: 'success'
-                        })
                         localStorage.setItem('refreshToken', res.refreshToken)
                         setUserDetail(initialUserState)
-                        clearMessage()
                         onClose()
                     })
                     .catch(err => {
@@ -63,7 +58,6 @@ const Authentication = ({ type, isOpen, onClose }) => {
                             message: err.message || 'Unable to Login!',
                             type: 'failure'
                         })
-                        clearMessage()
                     })
                 break
             case 'register':
@@ -73,12 +67,7 @@ const Authentication = ({ type, isOpen, onClose }) => {
                 }
                 await dispatch(register(userDetail))
                     .then(res => {
-                        setStatus({
-                            message: 'Login successful!',
-                            type: 'success'
-                        })
                         setUserDetail(initialUserState)
-                        clearMessage()
                         onClose()
                     })
                     .catch(err => {
@@ -86,7 +75,6 @@ const Authentication = ({ type, isOpen, onClose }) => {
                             message: err.message || 'Unable to login!',
                             type: 'failure'
                         })
-                        clearMessage()
                     })
                 break
 
@@ -104,6 +92,14 @@ const Authentication = ({ type, isOpen, onClose }) => {
             })
         }, 1000)
     }
+
+    const populateRandomUser = () => {
+        setUserDetail({
+            username: 'default-user',
+            password: 'default-user'
+        })
+    }
+
     return (
         <Transition
             show={isOpen}
@@ -182,8 +178,9 @@ const Authentication = ({ type, isOpen, onClose }) => {
                                             maxLength={100}
                                         />
                                     </span>
+
                                     <div
-                                        className={`flex items-center space-x-4`}
+                                        className={`flex justify-between items-center space-x-4`}
                                     >
                                         <button
                                             style={{ maxWidth: '8rem' }}
@@ -207,6 +204,27 @@ const Authentication = ({ type, isOpen, onClose }) => {
                                         >
                                             Cancel
                                         </button>
+                                    </div>
+                                    <div
+                                        className={`flex flex-wrap text-purple-600 justify-center items-center space-x-2 pt-4`}
+                                    >
+                                        <div
+                                            onClick={populateRandomUser}
+                                            className={`cursor-pointer`}
+                                        >
+                                            Generate random user
+                                        </div>
+                                        <span className={`text-gray-600`}>
+                                            or
+                                        </span>
+                                        <div
+                                            onClick={() =>
+                                                setCurrentType('register')
+                                            }
+                                            className={`cursor-pointer`}
+                                        >
+                                            Create account
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
@@ -266,8 +284,9 @@ const Authentication = ({ type, isOpen, onClose }) => {
                                                 maxLength={100}
                                             />
                                         </span>
+
                                         <div
-                                            className={`flex items-center space-x-4`}
+                                            className={`flex justify-between items-center space-x-4`}
                                         >
                                             <button
                                                 style={{ maxWidth: '8rem' }}
@@ -291,6 +310,19 @@ const Authentication = ({ type, isOpen, onClose }) => {
                                             >
                                                 Cancel
                                             </button>
+                                        </div>
+
+                                        <div
+                                            className={`flex justify-center pt-4`}
+                                        >
+                                            <span
+                                                onClick={() =>
+                                                    setCurrentType('login')
+                                                }
+                                                className={`cursor-pointer text-purple-600`}
+                                            >
+                                                Already registered? Login
+                                            </span>
                                         </div>
                                     </div>
                                 )
