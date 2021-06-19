@@ -59,7 +59,7 @@ const PostDetail = () => {
     }, [posts])
 
     useEffect(() => {
-        fetchPost(postId)
+        fetchPost(postId) // eslint-disable-next-line
     }, [postId])
 
     const handlePostDelete = async () => {
