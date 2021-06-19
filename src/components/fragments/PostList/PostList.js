@@ -9,6 +9,7 @@ import { FiZap, FiUser, FiList, FiGrid } from 'react-icons/fi'
 
 import { updatePost } from '../../../actions/posts'
 import { updateUser } from '../../../actions/user'
+import { showAuth } from '../../../actions/default'
 
 const PostList = () => {
     const [layout, setLayout] = useState('grid')
@@ -24,7 +25,7 @@ const PostList = () => {
 
     const handlePostFavorite = async (post, index) => {
         if (!user) {
-            alert('Log in!')
+            dispatch(showAuth(true))
             return
         }
         let userUpdate

@@ -1,3 +1,5 @@
+export const SHOW_AUTH = 'SHOW_AUTH'
+
 export const ADD_POST = 'ADD_POST'
 export const RETRIEVE_POSTS = 'RETRIEVE_POSTS'
 export const RETRIEVE_POST = 'RETRIEVE_POST'

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Transition, Menu } from '@headlessui/react'
 import { useSelector } from 'react-redux'
@@ -10,9 +10,11 @@ import { HiMenuAlt3 } from 'react-icons/hi'
 import Authentication from '../Authentication'
 
 import { logout } from '../../../actions/user'
+import { showAuth } from '../../../actions/default'
 
 const Nav = ({ className }) => {
     const user = useSelector(state => state.user)
+    const defaults = useSelector(state => state.defaults)
     const [authOpen, setAuthOpen] = useState({
         isOpen: false,
         type: ''
@@ -30,7 +32,17 @@ const Nav = ({ className }) => {
             isOpen: false,
             type: ''
         })
+        dispatch(showAuth(false))
     }
+
+    useEffect(() => {
+        if (defaults.showAuth) {
+            setAuthOpen({
+                isOpen: defaults.showAuth,
+                type: 'login'
+            })
+        }
+    }, [defaults])
 
     return (
         <nav

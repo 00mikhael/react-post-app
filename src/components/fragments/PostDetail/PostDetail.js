@@ -17,6 +17,7 @@ import {
 import { getById } from '../../../services/postService'
 import { updatePost, deletePost } from '../../../actions/posts'
 import { updateUser } from '../../../actions/user'
+import { showAuth } from '../../../actions/default'
 
 const PostDetail = () => {
     const history = useHistory()
@@ -46,10 +47,6 @@ const PostDetail = () => {
 
     const handlePostDelete = async () => {
         setIsDeleteDialogOpen(false)
-        if (!user) {
-            alert('Log in!')
-            return
-        }
         await dispatch(deletePost(currentPost._id)).catch(console.log)
         history.push('/')
     }
@@ -76,7 +73,7 @@ const PostDetail = () => {
 
     const handlePostFavorite = () => {
         if (!user) {
-            alert('Log in!')
+            dispatch(showAuth(true))
             return
         }
         let postUpdate

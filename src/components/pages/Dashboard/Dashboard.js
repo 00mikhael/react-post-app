@@ -4,6 +4,7 @@ import { FiLoader } from 'react-icons/fi'
 
 import PostList from '../../fragments/PostList'
 import { retrievePostsByUserId } from '../../../actions/posts'
+import { showAuth } from '../../../actions/default'
 import withAddPost from '../../hoc/withAddPost'
 
 const Dashboard = () => {
@@ -15,6 +16,8 @@ const Dashboard = () => {
             dispatch(retrievePostsByUserId(user._id)).then(res => {
                 setShowPosts(true)
             })
+        } else {
+            dispatch(showAuth(true))
         }
     }, [dispatch, user])
 
