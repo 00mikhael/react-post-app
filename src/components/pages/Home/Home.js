@@ -11,6 +11,7 @@ const Home = () => {
     const dispatch = useDispatch()
     const defaults = useSelector(state => state.defaults)
     const posts = useSelector(state => state.posts)
+    const [published, setPublished] = useState([])
     const [postFilter, setPostFilter] = useState('')
 
     useEffect(() => {
@@ -19,6 +20,15 @@ const Home = () => {
         }
         // eslint-disable-next-line
     }, [postFilter])
+
+    useEffect(() => {
+        if (posts) {
+            let publishedPosts = posts.filter(post => {
+                return post.published === true
+            })
+            setPublished(publishedPosts)
+        }
+    }, [posts])
 
     const handleSearch = e => {
         e.preventDefault()
@@ -58,7 +68,9 @@ const Home = () => {
                     <FiLoader className={`animate-spin `} />
                 </div>
             )}
-            {posts && posts.length > 0 && <PostList posts={posts} />}
+            {published && published.length > 0 && (
+                <PostList posts={published} />
+            )}
         </>
     )
 }

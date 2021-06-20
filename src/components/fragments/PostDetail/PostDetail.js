@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, Switch } from '@headlessui/react'
 import moment from 'moment'
 
 import {
@@ -36,7 +36,7 @@ const PostDetail = () => {
     const posts = useSelector(state => state.posts)
     const defaults = useSelector(state => state.defaults)
     const [editing, setEditing] = useState(false)
-    let [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     const fetchPost = async id => {
         dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
@@ -92,30 +92,57 @@ const PostDetail = () => {
             userUpdate = [...user.favoritePosts, currentPost._id]
         }
 
-        dispatch(refreshUser({ favoritePosts: userUpdate }))
-        dispatch(
-            refreshPosts({
-                id: currentPost._id,
-                update: {
-                    favorites: postUpdate,
-                    favoritesCount: postUpdate.length
-                }
-            })
-        )
-
-        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(
-            console.log
-        )
-        dispatch(
-            updatePost(currentPost._id, {
+        refresh(
+            { favoritePosts: userUpdate },
+            {
                 favorites: postUpdate,
                 favoritesCount: postUpdate.length
-            })
+            }
         )
-            .then(res => {
-                setCurrentPost(res.data.post)
-            })
-            .catch(console.log)
+
+        update(
+            { favoritePosts: userUpdate },
+            {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            }
+        )
+    }
+
+    useEffect(() => {
+        console.log(currentPost)
+    }, [currentPost])
+
+    const refresh = (userUpdate, postUpdate) => {
+        if (userUpdate) {
+            dispatch(refreshUser(userUpdate))
+        }
+        if (postUpdate) {
+            dispatch(
+                refreshPosts({
+                    id: currentPost._id,
+                    update: postUpdate
+                })
+            )
+        }
+    }
+
+    const update = (userUpdate, postUpdate) => {
+        if (userUpdate) {
+            dispatch(updateUser(user._id, userUpdate)).catch(console.log)
+        }
+        if (postUpdate) {
+            dispatch(updatePost(currentPost._id, postUpdate))
+                .then(res => {
+                    setCurrentPost(res.data.post)
+                })
+                .catch(console.log)
+        }
+    }
+
+    const handleCheckChange = checked => {
+        refresh(null, { published: checked })
+        update(null, { published: checked })
     }
 
     const handlePostEdit = () => {
@@ -131,7 +158,8 @@ const PostDetail = () => {
         const res = await dispatch(
             updatePost(currentPost._id, {
                 title: titleRef.current.textContent,
-                description: descRef.current.textContent
+                description: descRef.current.textContent,
+                published: currentPost.published
             })
         )
 
@@ -166,6 +194,28 @@ const PostDetail = () => {
                         <div className={`flex justify-end my-4`}>
                             {!editing ? (
                                 <span className={`flex items-center space-x-8`}>
+                                    <Switch
+                                        id='published'
+                                        name='published'
+                                        checked={currentPost.published}
+                                        onChange={handleCheckChange}
+                                        className={`${
+                                            currentPost.published
+                                                ? 'bg-purple-600'
+                                                : 'bg-gray-200'
+                                        } relative inline-flex items-center h-6 rounded-full w-11 focus:outline-none`}
+                                    >
+                                        <span className='sr-only'>
+                                            Publish post
+                                        </span>
+                                        <span
+                                            className={`${
+                                                currentPost.published
+                                                    ? 'translate-x-6'
+                                                    : 'translate-x-1'
+                                            } inline-block w-4 h-4 transform bg-white rounded-full`}
+                                        />
+                                    </Switch>
                                     <FiEdit
                                         onClick={handlePostEdit}
                                         className={`cursor-pointer text-green-500`}
