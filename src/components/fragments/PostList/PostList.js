@@ -99,7 +99,7 @@ const PostList = ({ posts }) => {
             )}
             <div
                 style={{
-                    maxWidth: `${layout !== 'grid' ? '41rem' : '72rem'}`
+                    maxWidth: `${layout !== 'grid' ? '39rem' : '72rem'}`
                 }}
                 className={`${styles.list} flex flex-wrap flex-row gap-4 p-4 mx-auto  justify-center`}
             >
