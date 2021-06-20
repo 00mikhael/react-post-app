@@ -74,7 +74,7 @@ const Dashboard = () => {
                             />
                         </div>
                         <div
-                            className={`text-2xl text-white capitalize font-bold mb-4 mt-2`}
+                            className={` capitalize text-3xl text-purple-600 mt-3 mb-5 text-center font-bold`}
                         >
                             {user.username}
                         </div>
