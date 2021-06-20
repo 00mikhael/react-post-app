@@ -25,7 +25,7 @@ const Dashboard = () => {
             if (!user) {
                 dispatch(showAuth(true))
             }
-        }, 3000)
+        }, 2000)
         return () => clearTimeout(timer)
         // eslint-disable-next-line
     }, [user])
