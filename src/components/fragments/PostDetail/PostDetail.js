@@ -272,7 +272,9 @@ const PostDetail = () => {
                                 action cannot be undone.
                             </p>
 
-                            <div className={`space-x-4 flex items-center pt-4`}>
+                            <div
+                                className={`space-x-4 flex items-center justify-between pt-4`}
+                            >
                                 <button
                                     className={`flex items-center rounded px-6 py-2 cursor-pointer
                                 bg-red-500 hover:bg-red-600
