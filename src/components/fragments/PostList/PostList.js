@@ -128,7 +128,7 @@ const PostItem = memo(({ post, isFavorite, onClick, onFavorite }) => {
                 height: 'auto',
                 maxWidth: '550px'
             }}
-            className={`flex-grow  bg-fuchsia-200 shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative p-6 bg-white text-lg justify-between`}
+            className={`flex-grow  bg-fuchsia-200 shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative my-2 sm:my-0 p-6 bg-white text-lg justify-between`}
         >
             <div
                 className={`space-y-4 cursor-pointer`}
