@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { FiSearch, FiLoader } from 'react-icons/fi'
 
 import withAddPost from '../../hoc/withAddPost'
