@@ -190,57 +190,70 @@ const PostDetail = () => {
                 <div
                     className={`p-6 mx-4 md:mx-auto rounded-lg text-lg max-w-3xl my-6 bg-white shadow-lg`}
                 >
-                    {user && currentPost.creator_id === user._id && (
-                        <div className={`flex justify-end my-4`}>
-                            {!editing ? (
-                                <span className={`flex items-center space-x-8`}>
-                                    <Switch
-                                        id='published'
-                                        name='published'
-                                        checked={currentPost.published}
-                                        onChange={handleCheckChange}
-                                        className={`${
-                                            currentPost.published
-                                                ? 'bg-purple-600'
-                                                : 'bg-gray-200'
-                                        } relative inline-flex items-center h-6 rounded-full w-11 focus:outline-none`}
+                    <div className={`flex justify-between my-4`}>
+                        <span
+                            onClick={() => history.goBack()}
+                            className={`text-xl text-purple-600 cursor-pointer bg-purple-300 hover:bg-purple-400 w-8 h-8 flex justify-center items-center rounded-full`}
+                        >
+                            &larr;
+                        </span>
+                        {user && currentPost.creator_id === user._id && (
+                            <div>
+                                {!editing ? (
+                                    <span
+                                        className={`flex items-center space-x-8`}
                                     >
-                                        <span className='sr-only'>
-                                            Publish post
-                                        </span>
-                                        <span
+                                        <Switch
+                                            id='published'
+                                            name='published'
+                                            checked={currentPost.published}
+                                            onChange={handleCheckChange}
                                             className={`${
                                                 currentPost.published
-                                                    ? 'translate-x-6'
-                                                    : 'translate-x-1'
-                                            } inline-block w-4 h-4 transform bg-white rounded-full`}
+                                                    ? 'bg-purple-600'
+                                                    : 'bg-gray-200'
+                                            } relative inline-flex items-center h-6 rounded-full w-11 focus:outline-none`}
+                                        >
+                                            <span className='sr-only'>
+                                                Publish post
+                                            </span>
+                                            <span
+                                                className={`${
+                                                    currentPost.published
+                                                        ? 'translate-x-6'
+                                                        : 'translate-x-1'
+                                                } inline-block w-4 h-4 transform bg-white rounded-full`}
+                                            />
+                                        </Switch>
+                                        <FiEdit
+                                            onClick={handlePostEdit}
+                                            className={`cursor-pointer text-green-500`}
                                         />
-                                    </Switch>
-                                    <FiEdit
-                                        onClick={handlePostEdit}
-                                        className={`cursor-pointer text-green-500`}
-                                    />
-                                    <FiTrash2
-                                        onClick={() =>
-                                            setIsDeleteDialogOpen(true)
-                                        }
-                                        className={`cursor-pointer text-red-600`}
-                                    />
-                                </span>
-                            ) : (
-                                <span className={`flex items-center space-x-8`}>
-                                    <FiRotateCcw
-                                        onClick={handlePostEditCancel}
-                                        className={`cursor-pointer text-gray-500`}
-                                    />
-                                    <FiSave
-                                        onClick={handlePostEditComplete}
-                                        className={`cursor-pointer text-green-500`}
-                                    />
-                                </span>
-                            )}
-                        </div>
-                    )}
+                                        <FiTrash2
+                                            onClick={() =>
+                                                setIsDeleteDialogOpen(true)
+                                            }
+                                            className={`cursor-pointer text-red-600`}
+                                        />
+                                    </span>
+                                ) : (
+                                    <span
+                                        className={`flex items-center space-x-8`}
+                                    >
+                                        <FiRotateCcw
+                                            onClick={handlePostEditCancel}
+                                            className={`cursor-pointer text-gray-500`}
+                                        />
+                                        <FiSave
+                                            onClick={handlePostEditComplete}
+                                            className={`cursor-pointer text-green-500`}
+                                        />
+                                    </span>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
                     <div className={`space-y-2`}>
                         <div
                             className={`font-semibold flex justify-between items-center space-x-8`}
