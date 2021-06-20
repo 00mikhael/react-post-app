@@ -34,9 +34,7 @@ const Home = () => {
 
     return (
         <>
-            <div
-                className={` flex flex-col items-center justify-center m-6 mb-0 space-y-6 `}
-            >
+            <div className={`flex justify-center mx-4 `}>
                 <form
                     onSubmit={handleSearch}
                     className={`rounded-lg h-12 shadow bg-white overflow-hidden w-full max-w-xl flex items-center pl-4`}
