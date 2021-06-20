@@ -199,7 +199,9 @@ const AddPost = ({ isOpen, onClose }) => {
                             </div>
                         </Switch.Group>
 
-                        <div className={`flex items-center space-x-4`}>
+                        <div
+                            className={`flex items-center justify-between space-x-4`}
+                        >
                             <button
                                 style={{ maxWidth: '8rem' }}
                                 className={`bg-purple-600 text-gray-50 w-full p-3 mt-3 rounded-md ${
