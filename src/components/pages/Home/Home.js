@@ -56,6 +56,7 @@ const Home = () => {
                     <input
                         className={`h-full w-full flex-1 rounded-r-lg outline-none focus:outline-none  ml-4 pr-4`}
                         type='search'
+                        placeholder='Search...'
                         spellCheck={false}
                         onChange={setQuery}
                     />
