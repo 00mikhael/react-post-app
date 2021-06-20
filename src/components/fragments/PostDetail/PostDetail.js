@@ -66,7 +66,7 @@ const PostDetail = () => {
     const handlePostDelete = async () => {
         setIsDeleteDialogOpen(false)
         await dispatch(deletePost(currentPost._id)).catch(console.log)
-        history.push('/')
+        history.goBack()
     }
 
     const handlePostFavorite = async () => {
