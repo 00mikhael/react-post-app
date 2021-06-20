@@ -22,7 +22,7 @@ const Footer = ({ className }) => {
             className={`${className}`}
         >
             <div
-                className={`row-start-1 row-end-3 col-start-1 z-10 bg-white p-6 rounded-lg shadow-lg max-w-xl mx-6 sm:mx-auto`}
+                className={`row-start-1 row-end-3 col-start-1 z-10 bg-white p-6 rounded-lg shadow-lg max-w-xl mx-4 sm:mx-auto`}
             >
                 <Sparkles>
                     <p
@@ -41,7 +41,9 @@ const Footer = ({ className }) => {
             <div
                 className={`row-start-3 row-end-4 col-start-1 bg-purple-900 flex justify-center items-start`}
             >
-                <div className={`m-6 mt-12 w-full max-w-6xl flex-1`}>
+                <div
+                    className={`m-4 mt-12 w-full md:max-w-2xl lg:max-w-4xl xl:max-w-6xl flex-1`}
+                >
                     <div
                         className={`flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-start`}
                     >

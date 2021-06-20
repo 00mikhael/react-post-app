@@ -54,7 +54,9 @@ const PostList = ({ posts }) => {
             })
         )
 
-        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(console.log)
+        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(
+            console.log
+        )
         dispatch(
             updatePost(post._id, {
                 favorites: postUpdate,
@@ -126,7 +128,7 @@ const PostItem = memo(({ post, isFavorite, onClick, onFavorite }) => {
                 height: 'auto',
                 maxWidth: '550px'
             }}
-            className={`flex-grow  bg-fuchsia-200 shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative m-2 p-6 bg-white text-lg justify-between`}
+            className={`flex-grow  bg-fuchsia-200 shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative p-6 bg-white text-lg justify-between`}
         >
             <div
                 className={`space-y-4 cursor-pointer`}

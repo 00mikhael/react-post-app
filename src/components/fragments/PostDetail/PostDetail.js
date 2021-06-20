@@ -149,7 +149,7 @@ const PostDetail = () => {
     if (!currentPost) {
         return (
             <div
-                className={`mx-auto w-min px-6 py-4  text-sm text-purple-600 rounded-lg text-center bg-white mt-6`}
+                className={`mx-auto w-min p-4  text-sm text-purple-600 rounded-lg text-center bg-white mt-6`}
             >
                 <FiLoader className={`animate-spin `} />
             </div>
@@ -160,7 +160,7 @@ const PostDetail = () => {
         <>
             {currentPost && (
                 <div
-                    className={`p-6 mx-6 md:mx-auto rounded-lg text-lg max-w-3xl my-6 bg-white shadow-lg`}
+                    className={`p-6 mx-4 md:mx-auto rounded-lg text-lg max-w-3xl my-6 bg-white shadow-lg`}
                 >
                     {user && currentPost.creator_id === user._id && (
                         <div className={`flex justify-end my-4`}>

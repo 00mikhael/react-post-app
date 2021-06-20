@@ -46,13 +46,13 @@ const Nav = ({ className }) => {
 
     return (
         <nav
-            className={`${className} flex justify-between items-center p-6 text-lg`}
+            className={`${className} flex justify-between items-center p-4 text-lg`}
         >
             <Link
-                className={`font-bold text-purple-600 flex items-center text-4xl`}
+                className={`font-bold text-purple-600 flex items-center`}
                 to='/'
             >
-                <FiTriangle className={`mr-1 `} />
+                <FiTriangle className={`mr-1 text-4xl`} />
                 <span className={`text-3xl`}>Posty</span>
             </Link>
             <Authentication
@@ -66,7 +66,7 @@ const Nav = ({ className }) => {
                 className='relative space-x-4 items-center hidden sm:flex z-30'
             >
                 <Menu.Button
-                    className={`flex items-center list-none rounded py-2 px-4 cursor-pointer text-purple-600 hover:bg-purple-600 hover:bg-opacity-25 font-sans font-medium focus:outline-none `}
+                    className={`flex items-center list-none rounded py-2 px-4 cursor-pointer text-purple-600 bg-purple-600 hover:bg-purple-700 hover:bg-opacity-25 bg-opacity-25 font-sans font-medium focus:outline-none `}
                 >
                     <FiUser className={`mr-1`} />
                     {user ? user.username : `Account`}{' '}
@@ -82,7 +82,7 @@ const Nav = ({ className }) => {
                 >
                     <Menu.Items
                         style={{
-                            maxWidth: 'calc(100vw - 75vw)'
+                            maxWidth: '16rem'
                         }}
                         className='absolute z-20  text-purple-600 bg-white mt-6 -right-0 w-screen rounded-lg mr-4 shadow-lg overflow-hidden flex flex-col'
                     >
@@ -158,7 +158,7 @@ const Nav = ({ className }) => {
                 >
                     <Menu.Items
                         style={{
-                            width: 'calc(100vw - 48px)'
+                            width: 'calc(100vw - 32px)'
                         }}
                         className='absolute z-20  text-purple-600 bg-white -right-4 mt-4 rounded-lg mr-4 shadow-lg overflow-hidden flex flex-col'
                     >
