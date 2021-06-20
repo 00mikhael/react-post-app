@@ -30,8 +30,10 @@ const Dashboard = () => {
         let timer = setTimeout(() => {
             if (!user) {
                 dispatch(showAuth(true))
+            } else {
+                dispatch(showAuth(false))
             }
-        }, 2000)
+        }, 3000)
         return () => clearTimeout(timer)
         // eslint-disable-next-line
     }, [user])
