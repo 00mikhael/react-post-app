@@ -68,6 +68,10 @@ const Authentication = ({ type, isOpen, onClose }) => {
                 await dispatch(register(userDetail))
                     .then(res => {
                         setUserDetail(initialUserState)
+                        setStatus({
+                            message: '',
+                            type: ''
+                        })
                         setCurrentType('login')
                     })
                     .catch(err => {
