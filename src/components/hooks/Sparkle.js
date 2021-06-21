@@ -1,4 +1,4 @@
-import '../../../App.css'
+import '../../App.css'
 
 function Sparkle({ color, size, style }) {
     return (

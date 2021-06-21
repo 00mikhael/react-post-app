@@ -8,7 +8,7 @@ import { IoLogoVercel } from 'react-icons/io5'
 import { FiTwitter, FiGithub, FiTriangle } from 'react-icons/fi'
 import { AiOutlineHeart } from 'react-icons/ai'
 
-import Sparkles from '../utility/Sparkles'
+import Sparkles from '../hooks/Sparkles'
 
 const Footer = ({ className }) => {
     return (
