@@ -51,7 +51,7 @@ function App() {
             <ScrollToTop>
                 <Base className={`min-h-screen opacity-100`}>
                     <Header
-                        className={`header bg rounded-bl-3xl  row-start-1 row-end-3 col-start-1 col-end-2`}
+                        className={`row-start-1 row-end-3 col-start-1 col-end-2`}
                     />
 
                     <Main

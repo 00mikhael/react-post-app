@@ -1,3 +1,5 @@
+import '../../App.css'
+
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { FiEdit3 } from 'react-icons/fi'
@@ -18,7 +20,8 @@ const withAddPost = Component => {
                 {user?.username && (
                     <div
                         onClick={() => setIsOpen(true)}
-                        className={`text-purple-500 bg-yellow-500 w-16 h-16 rounded-full flex justify-center items-center fixed bottom-0 right-0 z-50 shadow-md m-6 cursor-pointer`}
+                        style={{ backgroundColor: '#ecc99b' }}
+                        className={` text-purple-600 w-16 h-16 rounded-full flex justify-center items-center fixed bottom-0 right-0 z-50 shadow-md m-6 cursor-pointer`}
                     >
                         <FiEdit3 className={`text-xl`} />
                     </div>
