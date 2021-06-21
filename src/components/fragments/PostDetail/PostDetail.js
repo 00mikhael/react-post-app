@@ -70,8 +70,8 @@ const PostDetail = () => {
     }
 
     const handlePostFavorite = async () => {
-        if (!user) {
-            dispatch(showAuth(true))
+        if (!user?.username) {
+            dispatch(showAuth({ isShow: true, type: 'login' }))
             return
         }
         let postUpdate
@@ -108,10 +108,6 @@ const PostDetail = () => {
             }
         )
     }
-
-    useEffect(() => {
-        console.log(currentPost)
-    }, [currentPost])
 
     const refresh = (userUpdate, postUpdate) => {
         if (userUpdate) {
@@ -197,7 +193,7 @@ const PostDetail = () => {
                         >
                             &larr;
                         </span>
-                        {user && currentPost.creator_id === user._id && (
+                        {user?.username && currentPost.creator_id === user._id && (
                             <div>
                                 {!editing ? (
                                     <span
@@ -326,7 +322,9 @@ const PostDetail = () => {
                         <Dialog.Overlay className='fixed inset-0 bg-black opacity-30' />
 
                         <div className=' bg-white rounded-lg max-w-sm m-4 px-6 py-4 space-y-2 shadow-lg z-10'>
-                            <Dialog.Title className={`text-red-600 text-lg`}>
+                            <Dialog.Title
+                                className={`font-extrabold text-red-600 text-3xl my-2 capitalize`}
+                            >
                                 Delete post
                             </Dialog.Title>
 

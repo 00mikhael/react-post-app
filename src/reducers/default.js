@@ -5,14 +5,14 @@ import {
     DELETE_POST_CURRENT_POSTS
 } from '../actions/type'
 
-const initialState = { showAuth: false, isSetPosts: false, currentPosts: null }
+const initialState = { showAuth: {isShow: false, type: '' }, isSetPosts: false, currentPosts: null }
 
 const defaultReducer = (defaultState = initialState, action) => {
     const { type, payload } = action
 
     switch (type) {
         case SHOW_AUTH:
-            return { ...defaultState, showAuth: payload.showAuth }
+            return { ...defaultState, showAuth: {isShow: payload.isShow, type: payload.type} }
         case CURRENT_POSTS:
             return {
                 ...defaultState,

@@ -41,7 +41,7 @@ function App() {
     }, [refreshInterval])
 
     useEffect(() => {
-        if (user) {
+        if (user?.username) {
             setRefreshInterval(user.jwtExp * 1000 - 5000)
         }
     }, [user])

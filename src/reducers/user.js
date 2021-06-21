@@ -6,7 +6,8 @@ import {
     REFRESH_USER,
     RETRIEVE_USER,
     UPDATE_USER,
-    DELETE_USER
+    DELETE_USER,
+    RESET_PASSWORD_TOKEN_ID
 } from '../actions/type'
 
 const initialState = null
@@ -42,6 +43,8 @@ const userReducer = (user = initialState, action) => {
             }
         case DELETE_USER:
             return initialState
+        case RESET_PASSWORD_TOKEN_ID:
+            return { ...user, resetToken: payload.resetToken, id: payload.id }
         default:
             return user
     }

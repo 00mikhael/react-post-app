@@ -8,7 +8,7 @@ import {
 export const showAuth = data => async dispatch => {
     dispatch({
         type: SHOW_AUTH,
-        payload: { showAuth: data }
+        payload: { isShow: data.isShow, type: data.type }
     })
 }
 

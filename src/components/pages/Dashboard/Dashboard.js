@@ -28,10 +28,10 @@ const Dashboard = () => {
 
     useEffect(() => {
         let timer = setTimeout(() => {
-            if (!user) {
-                dispatch(showAuth(true))
+            if (!user?.username) {
+                dispatch(showAuth({ isShow: true, type: 'login' }))
             } else {
-                dispatch(showAuth(false))
+                dispatch(showAuth({ isShow: false, type: '' }))
             }
         }, 3000)
         return () => clearTimeout(timer)
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
     return (
         <>
-            {user ? (
+            {user?.username ? (
                 <div className={``}>
                     <div className={`flex flex-col items-center`}>
                         <div

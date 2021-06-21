@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Transition, Menu } from '@headlessui/react'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { FiTriangle, FiChevronDown, FiUser } from 'react-icons/fi'
 import { HiMenuAlt3 } from 'react-icons/hi'
@@ -13,6 +13,7 @@ import { logout } from '../../../actions/user'
 import { showAuth } from '../../../actions/default'
 
 const Nav = ({ className }) => {
+    const history = useHistory()
     const user = useSelector(state => state.user)
     const defaults = useSelector(state => state.defaults)
     const [authOpen, setAuthOpen] = useState({
@@ -25,6 +26,13 @@ const Nav = ({ className }) => {
         dispatch(logout()).then(res => {
             localStorage.removeItem('refreshToken')
         })
+        if (
+            history.location.pathname.includes('/posts') ||
+            history.location.pathname === '/'
+        ) {
+            return
+        }
+        history.push('/')
     }
 
     const closeAuthDialog = () => {
@@ -32,14 +40,14 @@ const Nav = ({ className }) => {
             isOpen: false,
             type: ''
         })
-        dispatch(showAuth(false))
+        dispatch(showAuth({ isShow: false, type: '' }))
     }
 
     useEffect(() => {
-        if (defaults.showAuth) {
+        if (defaults.showAuth.isShow) {
             setAuthOpen({
-                isOpen: defaults.showAuth,
-                type: 'login'
+                isOpen: defaults.showAuth.isShow,
+                type: defaults.showAuth.type
             })
         }
     }, [defaults])
@@ -69,7 +77,7 @@ const Nav = ({ className }) => {
                     className={`flex items-center list-none rounded py-2 px-4 cursor-pointer text-purple-600 bg-purple-600 hover:bg-purple-700 hover:bg-opacity-25 bg-opacity-25 font-sans font-medium focus:outline-none `}
                 >
                     <FiUser className={`mr-1`} />
-                    {user ? user.username : `Account`}{' '}
+                    {user && user.username ? user.username : `Account`}{' '}
                     <FiChevronDown className={`ml-1 opacity-70`} />
                 </Menu.Button>
                 <Transition
@@ -86,7 +94,7 @@ const Nav = ({ className }) => {
                         }}
                         className='absolute z-20  text-purple-600 bg-white mt-6 -right-0 w-screen rounded-lg mr-4 shadow-lg overflow-hidden flex flex-col'
                     >
-                        {!user ? (
+                        {!user?.username ? (
                             <div
                                 className={`flex flex-col divide-y divide-purple-100`}
                             >
@@ -162,7 +170,7 @@ const Nav = ({ className }) => {
                         }}
                         className='absolute z-20  text-purple-600 bg-white -right-4 mt-4 rounded-lg mr-4 shadow-lg overflow-hidden flex flex-col'
                     >
-                        {!user ? (
+                        {!user?.username ? (
                             <div
                                 className={`flex flex-col divide-y divide-purple-100 `}
                             >

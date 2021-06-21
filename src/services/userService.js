@@ -28,6 +28,21 @@ export const removeUserById = async id => {
     return http().delete(`/api/users/${id}`)
 }
 
+export const forgotPassword = async data => {
+    return http().post(`/api/users/forgotPassword`, data)
+}
+
+export const cancelPasswordReset = async id => {
+    return http().post(`/api/users/cancelPasswordReset?id=${id}`)
+}
+
+export const resetPassword = async (resetToken, id, data) => {
+    return http().post(
+        `/api/users/resetPassword?resetToken=${resetToken}&id=${id}`,
+        data
+    )
+}
+
 const UserService = {
     register,
     login,
@@ -35,7 +50,10 @@ const UserService = {
     refreshToken,
     getUser,
     updateUserById,
-    removeUserById
+    removeUserById,
+    forgotPassword,
+    cancelPasswordReset,
+    resetPassword
 }
 
 export default UserService

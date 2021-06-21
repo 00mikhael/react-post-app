@@ -22,8 +22,8 @@ const PostList = ({ posts }) => {
     }
 
     const handlePostFavorite = async (post, index) => {
-        if (!user) {
-            dispatch(showAuth(true))
+        if (!user?.username) {
+            dispatch(showAuth({ isShow: true, type: 'login' }))
             return
         }
         let userUpdate

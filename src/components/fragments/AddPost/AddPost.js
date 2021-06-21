@@ -103,7 +103,7 @@ const AddPost = ({ isOpen, onClose }) => {
                             </span>
                         )}
                         <h1
-                            className={`font-extrabold text-purple-600 text-5xl my-2 `}
+                            className={`font-extrabold text-purple-600 text-3xl my-2 capitalize `}
                         >
                             Add Post
                         </h1>
