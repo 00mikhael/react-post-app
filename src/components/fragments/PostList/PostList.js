@@ -151,7 +151,7 @@ const PostItem = memo(({ post }) => {
             className={`flex-grow shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative my-2 sm:my-0 p-6 bg-white text-lg `}
         >
             {!post.published && (
-                <div className={`flex justify-end`}>
+                <div className={`flex justify-end mb-4`}>
                     <Switch
                         id='published'
                         name='published'
