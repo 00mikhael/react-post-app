@@ -68,7 +68,7 @@ const Authentication = ({ type, isOpen, onClose }) => {
                 await dispatch(register(userDetail))
                     .then(res => {
                         setUserDetail(initialUserState)
-                        onClose()
+                        setCurrentType('login')
                     })
                     .catch(err => {
                         setStatus({
