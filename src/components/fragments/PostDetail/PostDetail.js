@@ -38,6 +38,10 @@ const PostDetail = () => {
     const [editing, setEditing] = useState(false)
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
+    const isFavorite =
+        user?.favoritePosts?.includes(currentPost?._id) &&
+        currentPost?.favorites?.includes(user?._id)
+
     const fetchPost = async id => {
         dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
         await getById(id)
@@ -74,11 +78,8 @@ const PostDetail = () => {
             dispatch(showAuth({ isShow: true, type: 'login' }))
             return
         }
-        let postUpdate
-        let userUpdate
-        let isFavorite =
-            user.favoritePosts.includes(currentPost._id) &&
-            currentPost.favorites.includes(user._id)
+        let postUpdate = null
+        let userUpdate = null
 
         if (isFavorite) {
             postUpdate = currentPost.favorites.filter(userId => {
@@ -279,9 +280,7 @@ const PostDetail = () => {
                                     onKeyDown={handlePostFavorite}
                                     onClick={handlePostFavorite}
                                     className={`flex items-center cursor-pointer ${
-                                        user?.favoritePosts?.includes(
-                                            currentPost._id
-                                        ) && `text-yellow-400`
+                                        isFavorite && `text-yellow-400`
                                     }`}
                                 >
                                     <FiZap className={` mr-1 text-base`} />

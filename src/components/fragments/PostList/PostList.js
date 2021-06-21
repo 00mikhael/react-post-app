@@ -3,6 +3,7 @@ import styles from './PostList.module.css'
 import { useState, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { Switch } from '@headlessui/react'
 import moment from 'moment'
 
 import { FiZap, FiUser, FiList, FiGrid } from 'react-icons/fi'
@@ -13,57 +14,6 @@ import { showAuth } from '../../../actions/default'
 
 const PostList = ({ posts }) => {
     const [layout, setLayout] = useState('grid')
-
-    const history = useHistory()
-    const dispatch = useDispatch()
-    const user = useSelector(state => state.user)
-    const handlePostClick = post => {
-        history.push(`/posts/${post._id}`)
-    }
-
-    const handlePostFavorite = async (post, index) => {
-        if (!user?.username) {
-            dispatch(showAuth({ isShow: true, type: 'login' }))
-            return
-        }
-        let userUpdate
-        let postUpdate
-        let isFavorite =
-            user.favoritePosts.includes(post._id) &&
-            post.favorites.includes(user._id)
-        if (isFavorite) {
-            postUpdate = post.favorites.filter(userId => {
-                return userId !== user._id
-            })
-            userUpdate = user.favoritePosts.filter(postId => {
-                return postId !== post._id
-            })
-        } else {
-            postUpdate = [...post.favorites, user._id]
-            userUpdate = [...user.favoritePosts, post._id]
-        }
-
-        dispatch(refreshUser({ favoritePosts: userUpdate }))
-        dispatch(
-            refreshPosts({
-                id: post._id,
-                update: {
-                    favorites: postUpdate,
-                    favoritesCount: postUpdate.length
-                }
-            })
-        )
-
-        dispatch(updateUser(user._id, { favoritePosts: userUpdate })).catch(
-            console.log
-        )
-        dispatch(
-            updatePost(post._id, {
-                favorites: postUpdate,
-                favoritesCount: postUpdate.length
-            })
-        ).catch(console.log)
-    }
 
     const handleLayoutChange = type => {
         setLayout(type)
@@ -105,21 +55,91 @@ const PostList = ({ posts }) => {
             >
                 {posts &&
                     posts.length > 0 &&
-                    posts.map((post, index) => (
-                        <PostItem
-                            key={post._id}
-                            post={post}
-                            isFavorite={user?.favoritePosts?.includes(post._id)}
-                            onClick={() => handlePostClick(post)}
-                            onFavorite={() => handlePostFavorite(post, index)}
-                        />
-                    ))}
+                    posts.map(post => <PostItem key={post._id} post={post} />)}
             </div>
         </>
     )
 }
 
-const PostItem = memo(({ post, isFavorite, onClick, onFavorite }) => {
+const PostItem = memo(({ post }) => {
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const user = useSelector(state => state.user)
+
+    let isFavorite =
+        user?.favoritePosts?.includes(post?._id) &&
+        post?.favorites?.includes(user?._id)
+
+    const refresh = (userUpdate, postUpdate) => {
+        if (userUpdate) {
+            dispatch(refreshUser(userUpdate))
+        }
+        if (postUpdate) {
+            dispatch(
+                refreshPosts({
+                    id: post._id,
+                    update: postUpdate
+                })
+            )
+        }
+    }
+
+    const update = (userUpdate, postUpdate) => {
+        if (userUpdate) {
+            dispatch(updateUser(user._id, userUpdate)).catch(console.log)
+        }
+        if (postUpdate) {
+            dispatch(updatePost(post._id, postUpdate))
+        }
+    }
+
+    const handlePostClick = () => {
+        history.push(`/posts/${post._id}`)
+    }
+
+    const handleCheckChange = checked => {
+        refresh(null, { published: checked })
+        update(null, { published: checked })
+    }
+
+    const handlePostFavorite = async () => {
+        if (!user?.username) {
+            dispatch(showAuth({ isShow: true, type: 'login' }))
+            return
+        }
+
+        let postUpdate = null
+        let userUpdate = null
+
+        if (isFavorite) {
+            postUpdate = post.favorites.filter(userId => {
+                return userId !== user._id
+            })
+            userUpdate = user.favoritePosts.filter(postId => {
+                return postId !== post._id
+            })
+        } else {
+            postUpdate = [...post.favorites, user._id]
+            userUpdate = [...user.favoritePosts, post._id]
+        }
+
+        refresh(
+            { favoritePosts: userUpdate },
+            {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            }
+        )
+
+        update(
+            { favoritePosts: userUpdate },
+            {
+                favorites: postUpdate,
+                favoritesCount: postUpdate.length
+            }
+        )
+    }
+
     return (
         <div
             style={{
@@ -128,41 +148,68 @@ const PostItem = memo(({ post, isFavorite, onClick, onFavorite }) => {
                 height: 'auto',
                 maxWidth: '550px'
             }}
-            className={`flex-grow  bg-fuchsia-200 shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative my-2 sm:my-0 p-6 bg-white text-lg justify-between`}
+            className={`flex-grow shadow-lg hover:shadow-md rounded-lg overflow-hidden flex flex-col relative my-2 sm:my-0 p-6 bg-white text-lg `}
         >
-            <div
-                className={`space-y-4 cursor-pointer`}
-                onKeyDown={onClick}
-                onClick={onClick}
-            >
-                <div className={`font-semibold flex items-center space-x-4 `}>
-                    <h2 className={`flex-1 text-purple-600`}>{post.title}</h2>
-                </div>
-
-                <p className={`text-base text-gray-700`}>
-                    {`${post.description.substr(0, 200)}...`}
-                </p>
-            </div>
-            <div
-                className={`text-sm text-gray-600 flex flex-wrap justify-between mt-6 space-x-6`}
-            >
-                <span className={`flex items-center space-x-4`}>
-                    <span className={`flex items-center text-purple-600 `}>
-                        <FiUser className={`mr-1`} />
-                        {post.creator_name}
-                    </span>
-                    <span
-                        className={`flex items-center cursor-pointer ${
-                            isFavorite && `text-yellow-400`
-                        }`}
-                        onKeyDown={onFavorite}
-                        onClick={onFavorite}
+            {!post.published && (
+                <div className={`flex justify-end`}>
+                    <Switch
+                        id='published'
+                        name='published'
+                        checked={post.published}
+                        onChange={handleCheckChange}
+                        className={`${
+                            post.published ? 'bg-purple-600' : 'bg-gray-200'
+                        } relative inline-flex items-center h-6 rounded-full w-11 focus:outline-none`}
                     >
-                        <FiZap className={` mr-1 text-base`} />
-                        {post.favoritesCount > 0 && post.favoritesCount}
+                        <span className='sr-only'>Publish post</span>
+                        <span
+                            className={`${
+                                post.published
+                                    ? 'translate-x-6'
+                                    : 'translate-x-1'
+                            } inline-block w-4 h-4 transform bg-white rounded-full`}
+                        />
+                    </Switch>
+                </div>
+            )}
+            <div className={`flex flex-col justify-between`}>
+                <div
+                    className={`space-y-4 cursor-pointer`}
+                    onKeyDown={handlePostClick}
+                    onClick={handlePostClick}
+                >
+                    <div
+                        className={`font-semibold flex items-center space-x-4 `}
+                    >
+                        <h2 className={`flex-1 text-purple-600`}>
+                            {post.title}
+                        </h2>
+                    </div>
+                    <p className={`text-base text-gray-700`}>
+                        {`${post.description.substr(0, 200)}...`}
+                    </p>
+                </div>
+                <div
+                    className={`text-sm text-gray-600 flex flex-wrap justify-between mt-6 space-x-6`}
+                >
+                    <span className={`flex items-center space-x-4`}>
+                        <span className={`flex items-center text-purple-600 `}>
+                            <FiUser className={`mr-1`} />
+                            {post.creator_name}
+                        </span>
+                        <span
+                            className={`flex items-center cursor-pointer ${
+                                isFavorite && `text-yellow-400`
+                            }`}
+                            onKeyDown={handlePostFavorite}
+                            onClick={handlePostFavorite}
+                        >
+                            <FiZap className={` mr-1 text-base`} />
+                            {post.favoritesCount > 0 && post.favoritesCount}
+                        </span>
                     </span>
-                </span>
-                <span>{moment(post.createdAt).fromNow()}</span>
+                    <span>{moment(post.createdAt).fromNow()}</span>
+                </div>
             </div>
         </div>
     )
