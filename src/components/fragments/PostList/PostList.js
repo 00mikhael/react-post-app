@@ -172,7 +172,7 @@ const PostItem = memo(({ post }) => {
                     </Switch>
                 </div>
             )}
-            <div className={`flex flex-col justify-between`}>
+            <div className={`flex flex-col justify-between h-full`}>
                 <div
                     className={`space-y-4 cursor-pointer`}
                     onKeyDown={handlePostClick}
