@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { Listbox, Transition } from '@headlessui/react'
 import { FiCheck } from 'react-icons/fi'
 import { HiSelector } from 'react-icons/hi'
@@ -10,21 +11,28 @@ import withAddPost from '../../hoc/withAddPost'
 import { retrievePosts } from '../../../actions/posts'
 import { showAuth } from '../../../actions/default'
 
-const status = ['Published', 'Drafts']
+const status = ['Drafts', 'Published']
 
 const Dashboard = () => {
-    const [selectedStatus, setSelectedStatus] = useState(status[0])
     const dispatch = useDispatch()
+    const history = useHistory()
     const initialUserPosts = { published: [], drafts: [] }
     const user = useSelector(state => state.user)
     const posts = useSelector(state => state.posts)
     const defaults = useSelector(state => state.defaults)
     const [userPosts, setUserPosts] = useState(initialUserPosts)
+    const [selectedStatus, setSelectedStatus] = useState(status[0])
 
     useEffect(() => {
         dispatch(retrievePosts(defaults.currentPosts)).catch(console.log)
         // eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        history.push(
+            `${history.location.pathname}#${selectedStatus.toLowerCase()}`
+        ) // eslint-disable-next-line
+    }, [selectedStatus])
 
     useEffect(() => {
         let timer = setTimeout(() => {
